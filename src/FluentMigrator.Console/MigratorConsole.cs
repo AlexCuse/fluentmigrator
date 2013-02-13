@@ -30,6 +30,7 @@ namespace FluentMigrator.Console
     public class MigratorConsole
     {
         private readonly ConsoleAnnouncer consoleAnnouncer = new ConsoleAnnouncer();
+        public bool AllowBreakingChange;
         public string ApplicationContext;
         public string Connection;
         public string ConnectionStringConfigPath;
@@ -160,6 +161,11 @@ namespace FluentMigrator.Console
                                             v => { Tags.Add(v); }
                                             },
                                         {
+                                            "allowBreakingChange|abc",
+                                            "Allows execution of migrations marked as breaking changes.",
+                                            v => { AllowBreakingChange = true; }
+                                        },
+                                        {
                                             "help|h|?",
                                             "Displays this help menu.",
                                             v => { ShowHelp = true; }
@@ -278,6 +284,7 @@ namespace FluentMigrator.Console
                 Timeout = Timeout,
                 ConnectionStringConfigPath = ConnectionStringConfigPath,
                 ApplicationContext = ApplicationContext,
+                AllowBreakingChange = AllowBreakingChange,
                 Tags = Tags
             };
 

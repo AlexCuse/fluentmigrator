@@ -37,6 +37,8 @@ namespace FluentMigrator.Runner.Initialization
             private set;
         }
 
+        public bool AllowBreakingChange { get; set; }
+
         /// <summary>The arbitrary application context passed to the task runner.</summary>
         public object ApplicationContext { get; set; }
     }
