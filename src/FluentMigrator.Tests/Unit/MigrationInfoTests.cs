@@ -40,7 +40,7 @@ namespace FluentMigrator.Tests.Unit
 
         private MigrationInfo Create(TransactionBehavior behavior = TransactionBehavior.Default)
         {
-            return new MigrationInfo(_expectedVersion, behavior, _migration);
+            return new MigrationInfo(_expectedVersion, behavior, false, _migration);
         }
 
         [Test]

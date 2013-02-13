@@ -26,6 +26,7 @@ namespace FluentMigrator.Infrastructure
         long Version { get; }
         TransactionBehavior TransactionBehavior { get; }
         IMigration Migration { get; }
+        bool BreakingChange { get; }
         object Trait(string name);
         bool HasTrait(string name);
     }
@@ -34,18 +35,20 @@ namespace FluentMigrator.Infrastructure
     {
         private readonly Dictionary<string, object> _traits = new Dictionary<string, object>();
 
-        public MigrationInfo(long version, TransactionBehavior transactionBehavior, IMigration migration)
+        public MigrationInfo(long version, TransactionBehavior transactionBehavior, bool breakingChange, IMigration migration)
         {
             if (migration == null) throw new ArgumentNullException("migration");
 
             Version = version;
             TransactionBehavior = transactionBehavior;
             Migration = migration;
+            BreakingChange = breakingChange;
         }
 
         public long Version { get; private set; }
         public TransactionBehavior TransactionBehavior { get; private set; }
         public IMigration Migration { get; private set; }
+        public bool BreakingChange { get; private set; }
 
         public object Trait(string name)
         {

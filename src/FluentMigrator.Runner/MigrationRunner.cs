@@ -35,6 +35,7 @@ namespace FluentMigrator.Runner
         private IAnnouncer _announcer;
         private IStopWatch _stopWatch;
         private bool _alreadyOutputPreviewOnlyModeWarning;
+        private bool _allowBreakingChange;
 
         /// <summary>The arbitrary application context passed to the task runner.</summary>
         public object ApplicationContext { get; private set; }
@@ -54,6 +55,7 @@ namespace FluentMigrator.Runner
             Processor = processor;
             _stopWatch = runnerContext.StopWatch;
             ApplicationContext = runnerContext.ApplicationContext;
+            _allowBreakingChange = runnerContext.AllowBreakingChange;
 
             SilentlyFail = false;
             CaughtExceptions = null;
@@ -184,6 +186,11 @@ namespace FluentMigrator.Runner
 
                 try
                 {
+                    if(migrationInfo.BreakingChange && ! _allowBreakingChange)
+                    {
+                        throw new InvalidOperationException(string.Format("The migration {0} is identified as a breaking change, and will not be executed unless the necessary parameter (allowBreakingChange|abc) is passed to the runner.", name));
+                    }
+
                     _stopWatch.Start();
 
                     if (useTransaction) Processor.BeginTransaction();
